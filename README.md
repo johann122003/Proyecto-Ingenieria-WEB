@@ -4,8 +4,6 @@ ERP interno para la gestion de desarrolladores, requerimientos tecnicos, proyect
 
 ## Enlace del Proyecto Desplegado en Produccion
 
-Espacio reservado para el enlace de la aplicacion en Render:
-
 https://proyecto-ingenieria-web-57k6.onrender.com
 
 ## Enlace del Video Demostrativo
@@ -182,8 +180,8 @@ Para garantizar la integridad referencial y mejorar la experiencia de usuario:
 
 El sistema cuenta con un seeder que configura de forma idempotente al usuario administrador:
 
-- Correo: admin@erp.com
-- Clave: Admin12345!
+- Correo: admin@example.com
+- Clave: Admin123456
 - Rol: admin
 
 ---
