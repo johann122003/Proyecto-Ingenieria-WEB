@@ -6,7 +6,7 @@ ERP interno para la gestion de desarrolladores, requerimientos tecnicos, proyect
 
 Espacio reservado para el enlace de la aplicacion en Render:
 
-https://tu-servicio-en-render.onrender.com
+https://proyecto-ingenieria-web-57k6.onrender.com
 
 ---
 
