@@ -1,6 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
-import UserTransformer from '#transformers/user_transformer'
 import BaseInertiaMiddleware from '@adonisjs/inertia/inertia_middleware'
 
 export default class InertiaMiddleware extends BaseInertiaMiddleware {
@@ -21,13 +20,23 @@ export default class InertiaMiddleware extends BaseInertiaMiddleware {
         encoded: false,
       }) ?? 'light'
 
+    const u = auth?.user
+    const user = u
+      ? {
+          id: u.id,
+          fullName: u.fullName || (u as any).full_name || null,
+          full_name: (u as any).full_name || u.fullName || null,
+          email: u.email,
+          rol: u.rol || 'user',
+        }
+      : undefined
+
     /**
-     * Data shared with all Inertia pages. Make sure you are using
-     * transformers for rich data-types like Models.
+     * Data shared with all Inertia pages.
      */
     return {
       errors: ctx.inertia.always(this.getValidationErrors(ctx)),
-      user: ctx.inertia.always(auth?.user ? UserTransformer.transform(auth.user) : undefined),
+      user: ctx.inertia.always(user),
       preferences: ctx.inertia.always({ theme }),
     }
   }

@@ -4,8 +4,14 @@
  */
 
 export const controllers = {
+  admin: {
+    Admin: () => import('#controllers/admin/admin_controller'),
+    Desarrolladores: () => import('#controllers/admin/desarrolladores_controller'),
+    Habilidades: () => import('#controllers/admin/habilidades_controller'),
+    Proyectos: () => import('#controllers/admin/proyectos_controller'),
+    Requerimientos: () => import('#controllers/admin/requerimientos_controller'),
+  },
   Auth: () => import('#controllers/auth_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
-  Profesionals: () => import('#controllers/profesionals_controller'),
   Session: () => import('#controllers/session_controller'),
 }

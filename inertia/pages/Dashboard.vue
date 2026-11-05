@@ -1,75 +1,60 @@
 <script setup>
-import { useForm, router } from '@inertiajs/vue3'
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { router, Link, usePage } from '@inertiajs/vue3'
 
-defineProps({ profesionales: Array })
+const props = defineProps({
+  user: {
+    type: Object,
+    default: () => ({}),
+  },
+})
 
-const form = useForm({ especialidad: '', salario: '' })
-const editandoId = ref(null) // Guardará el ID del registro que estamos editando
+const page = usePage()
 
-const guardar = () => {
-  if (editandoId.value) {
-    // Modo Edición: Usamos router.put para actualizar
-    form.put(`/profesionales/${editandoId.value}`, { 
-      onSuccess: () => {
-        form.reset()
-        editandoId.value = null // Salir del modo edición
-      }
-    })
-  } else {
-    // Modo Creación normal
-    form.post('/profesionales', { onSuccess: () => form.reset() })
+// Compatibilidad: buscar usuario en props directas de la página o en props compartidas de Inertia
+const usuario = computed(() => {
+  if (props.user && Object.keys(props.user).length > 0) {
+    return props.user
   }
-}
+  return page.props.user || {}
+})
 
-const editar = (prof) => {
-  // Pasamos los datos del registro a las casillas del formulario
-  editandoId.value = prof.id
-  form.especialidad = prof.especialidad
-  form.salario = prof.salario
-}
+// Saludo: usa nombre (fullName o full_name) y si está vacío, usa el email
+const nombreMostrar = computed(() => {
+  return usuario.value.fullName || usuario.value.full_name || usuario.value.email || 'Usuario'
+})
 
-const cancelarEdicion = () => {
-  editandoId.value = null
-  form.reset()
-}
+// Enlace al panel de administración visible cuando el rol sea admin
+const esAdmin = computed(() => {
+  return usuario.value.rol === 'admin'
+})
 
-const eliminar = (id) => router.delete(`/profesionales/${id}`)
 const logout = () => router.post('/logout')
 </script>
 
 <template>
-  <div style="padding: 30px; font-family: sans-serif; max-width: 800px; margin: auto;">
-    <button @click="logout" style="float: right; padding: 10px; background: red; color: white; border: none; cursor:pointer;">Cerrar Sesión</button>
-    <h2>Panel CRUD de Profesionales</h2>
-    
-    <form @submit.prevent="guardar" style="margin-bottom: 20px; display: flex; gap: 10px;">
-      <input v-model="form.especialidad" placeholder="Especialidad" required style="padding: 8px; flex: 1;" />
-      <input v-model="form.salario" type="number" placeholder="Salario" required style="padding: 8px; flex: 1;" />
-      
-      <button type="submit" style="padding: 8px 15px; color: white; border: none; cursor:pointer;" :style="{ backgroundColor: editandoId ? '#006400' : 'green' }">
-        {{ editandoId ? 'Actualizar Registro' : 'Guardar Nuevo' }}
+  <div style="max-width: 800px; margin: 40px auto; padding: 20px; font-family: sans-serif; color: #000; background: #fff;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ccc; padding-bottom: 15px; margin-bottom: 25px;">
+      <h1 style="margin: 0; font-size: 24px;">Panel de Usuario</h1>
+      <button
+        type="button"
+        @click="logout"
+        style="padding: 6px 14px; background: #fff; color: #000; border: 1px solid #000; cursor: pointer;"
+      >
+        Cerrar Sesión
       </button>
-      
-      <button v-if="editandoId" type="button" @click="cancelarEdicion" style="padding: 8px 15px; background: gray; color: white; border: none; cursor:pointer;">
-        Cancelar
-      </button>
-    </form>
+    </div>
 
-    <table border="1" cellPadding="10" style="width: 100%; border-collapse: collapse; text-align: left;">
-      <tr style="background-color: #f2f2f2;">
-        <th>Especialidad</th>
-        <th>Salario</th>
-        <th>Acciones</th>
-      </tr>
-      <tr v-for="prof in profesionales" :key="prof.id">
-        <td>{{ prof.especialidad }}</td>
-        <td>${{ prof.salario }}</td>
-        <td>
-          <button @click="editar(prof)" style="background: orange; color:white; border:none; padding: 5px; cursor:pointer; margin-right: 5px;">Editar</button>
-          <button @click="eliminar(prof.id)" style="background: red; color:white; border:none; padding: 5px; cursor:pointer;">Eliminar</button>
-        </td>
-      </tr>
-    </table>
+    <p>Bienvenido al sistema ERP, <strong>{{ nombreMostrar }}</strong>.</p>
+
+    <div v-if="esAdmin" style="margin-top: 25px; padding: 15px; border: 1px solid #999;">
+      <p style="margin-top: 0;">Tienes permisos de administrador.</p>
+      <Link
+        href="/admin"
+        style="display: inline-block; padding: 8px 16px; background: #000; color: #fff; text-decoration: none; border: 1px solid #000;"
+      >
+        Ir al Panel de Administración
+      </Link>
+    </div>
   </div>
 </template>

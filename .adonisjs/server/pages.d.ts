@@ -9,6 +9,19 @@ type ExtractProps<T> = Omit<
 
 declare module '@adonisjs/inertia/types' {
   export interface InertiaPages {
+    'admin/desarrolladores/create': ExtractProps<(typeof import('../../inertia/pages/admin/desarrolladores/create.vue'))['default']>
+    'admin/desarrolladores/edit': ExtractProps<(typeof import('../../inertia/pages/admin/desarrolladores/edit.vue'))['default']>
+    'admin/desarrolladores/index': ExtractProps<(typeof import('../../inertia/pages/admin/desarrolladores/index.vue'))['default']>
+    'admin/habilidades/create': ExtractProps<(typeof import('../../inertia/pages/admin/habilidades/create.vue'))['default']>
+    'admin/habilidades/edit': ExtractProps<(typeof import('../../inertia/pages/admin/habilidades/edit.vue'))['default']>
+    'admin/habilidades/index': ExtractProps<(typeof import('../../inertia/pages/admin/habilidades/index.vue'))['default']>
+    'admin/index': ExtractProps<(typeof import('../../inertia/pages/admin/index.vue'))['default']>
+    'admin/proyectos/create': ExtractProps<(typeof import('../../inertia/pages/admin/proyectos/create.vue'))['default']>
+    'admin/proyectos/edit': ExtractProps<(typeof import('../../inertia/pages/admin/proyectos/edit.vue'))['default']>
+    'admin/proyectos/index': ExtractProps<(typeof import('../../inertia/pages/admin/proyectos/index.vue'))['default']>
+    'admin/requerimientos/create': ExtractProps<(typeof import('../../inertia/pages/admin/requerimientos/create.vue'))['default']>
+    'admin/requerimientos/edit': ExtractProps<(typeof import('../../inertia/pages/admin/requerimientos/edit.vue'))['default']>
+    'admin/requerimientos/index': ExtractProps<(typeof import('../../inertia/pages/admin/requerimientos/index.vue'))['default']>
     'auth/login': ExtractProps<(typeof import('../../inertia/pages/auth/login.vue'))['default']>
     'auth/signup': ExtractProps<(typeof import('../../inertia/pages/auth/signup.vue'))['default']>
     'Dashboard': ExtractProps<(typeof import('../../inertia/pages/Dashboard.vue'))['default']>

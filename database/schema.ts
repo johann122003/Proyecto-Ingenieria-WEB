@@ -7,25 +7,114 @@
 import { BaseModel, column } from '@adonisjs/lucid/orm'
 import { DateTime } from 'luxon'
 
-export class ProfesionalSchema extends BaseModel {
-  static $columns = ['createdAt', 'especialidad', 'id', 'salario', 'updatedAt', 'userId'] as const
-  $columns = ProfesionalSchema.$columns
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime | null
+export class AsignacioneSchema extends BaseModel {
+  static $columns = ['costoTotal', 'createdAt', 'desarrolladorId', 'horasExtras', 'horasNormales', 'id', 'proyectoId', 'updatedAt'] as const
+  $columns = AsignacioneSchema.$columns
   @column()
-  declare especialidad: string
+  declare costoTotal: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare desarrolladorId: number
+  @column()
+  declare horasExtras: string
+  @column()
+  declare horasNormales: string
   @column({ isPrimary: true })
   declare id: number
   @column()
-  declare salario: string
+  declare proyectoId: number
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+}
+
+export class DesarrolladorHabilidadSchema extends BaseModel {
+  static $columns = ['createdAt', 'desarrolladorId', 'habilidadId', 'nivel', 'updatedAt'] as const
+  $columns = DesarrolladorHabilidadSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare desarrolladorId: number
   @column()
-  declare userId: number | null
+  declare habilidadId: number
+  @column()
+  declare nivel: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class DesarrolladoreSchema extends BaseModel {
+  static $columns = ['costoHoraExtra', 'costoHoraNormal', 'createdAt', 'horasContrato', 'id', 'nombre', 'rolPrincipal', 'updatedAt'] as const
+  $columns = DesarrolladoreSchema.$columns
+  @column()
+  declare costoHoraExtra: string
+  @column()
+  declare costoHoraNormal: string
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare horasContrato: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nombre: string
+  @column()
+  declare rolPrincipal: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class HabilidadeSchema extends BaseModel {
+  static $columns = ['createdAt', 'id', 'nombre', 'updatedAt'] as const
+  $columns = HabilidadeSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nombre: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class ProyectoSchema extends BaseModel {
+  static $columns = ['createdAt', 'estado', 'fechaLimite', 'id', 'nombre', 'presupuesto', 'updatedAt'] as const
+  $columns = ProyectoSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare estado: string
+  @column.date()
+  declare fechaLimite: DateTime
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare nombre: string
+  @column()
+  declare presupuesto: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
+}
+
+export class RequerimientoSchema extends BaseModel {
+  static $columns = ['createdAt', 'horasEstimadas', 'id', 'proyectoId', 'rolRequerido', 'updatedAt'] as const
+  $columns = RequerimientoSchema.$columns
+  @column.dateTime({ autoCreate: true })
+  declare createdAt: DateTime
+  @column()
+  declare horasEstimadas: number
+  @column({ isPrimary: true })
+  declare id: number
+  @column()
+  declare proyectoId: number
+  @column()
+  declare rolRequerido: string
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  declare updatedAt: DateTime | null
 }
 
 export class UserSchema extends BaseModel {
-  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'updatedAt'] as const
+  static $columns = ['createdAt', 'email', 'fullName', 'id', 'password', 'rol', 'updatedAt'] as const
   $columns = UserSchema.$columns
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
@@ -37,6 +126,8 @@ export class UserSchema extends BaseModel {
   declare id: number
   @column({ serializeAs: null })
   declare password: string
+  @column()
+  declare rol: string
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 }
