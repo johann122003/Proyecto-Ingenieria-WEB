@@ -7,7 +7,7 @@ import type { InferInput, SimpleError } from '@vinejs/vine/types'
 export type ParamValue = string | number | bigint | boolean
 
 export interface Registry {
-  'auth.mostrar_login': {
+  'session.create': {
     methods: ["GET","HEAD"]
     pattern: '/login'
     types: {
@@ -19,7 +19,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth_controller').default['mostrarLogin']>>>
     }
   }
-  'auth.iniciar_sesion': {
+  'session.store': {
     methods: ["POST"]
     pattern: '/login'
     types: {
@@ -31,7 +31,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth_controller').default['iniciarSesion']>>>
     }
   }
-  'auth.mostrar_registro': {
+  'signup.create': {
     methods: ["GET","HEAD"]
     pattern: '/registro'
     types: {
@@ -43,7 +43,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth_controller').default['mostrarRegistro']>>>
     }
   }
-  'auth.registrar': {
+  'signup.store': {
     methods: ["POST"]
     pattern: '/registro'
     types: {
@@ -55,7 +55,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth_controller').default['registrar']>>>
     }
   }
-  'auth.cerrar_sesion': {
+  'session.destroy': {
     methods: ["POST"]
     pattern: '/logout'
     types: {
@@ -67,7 +67,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/auth_controller').default['cerrarSesion']>>>
     }
   }
-  'profesionals.index': {
+  'dashboard': {
     methods: ["GET","HEAD"]
     pattern: '/dashboard'
     types: {
@@ -75,44 +75,344 @@ export interface Registry {
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profesionals_controller').default['index']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profesionals_controller').default['index']>>>
+      response: unknown
+      errorResponse: unknown
     }
   }
-  'profesionals.store': {
-    methods: ["POST"]
-    pattern: '/profesionales'
+  'admin.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profesionals_controller').default['store']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profesionals_controller').default['store']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_controller').default['index']>>>
     }
   }
-  'profesionals.update': {
+  'admin.api.desarrolladores_por_rol': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/api/desarrolladores-por-rol'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['porRol']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['porRol']>>>
+    }
+  }
+  'admin.desarrolladores.asignar_habilidad': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/desarrolladores/asignar-habilidad'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['vistaAsignarHabilidad']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['vistaAsignarHabilidad']>>>
+    }
+  }
+  'admin.desarrolladores.guardar_asignar_habilidad': {
+    methods: ["POST"]
+    pattern: '/admin/desarrolladores/asignar-habilidad'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/asignar_habilidad').asignarHabilidadValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/asignar_habilidad').asignarHabilidadValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['guardarAsignarHabilidad']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['guardarAsignarHabilidad']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.desarrolladores.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/desarrolladores'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['index']>>>
+    }
+  }
+  'admin.desarrolladores.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/desarrolladores/crear'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['create']>>>
+    }
+  }
+  'admin.desarrolladores.store': {
+    methods: ["POST"]
+    pattern: '/admin/desarrolladores'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/desarrollador').desarrolladorValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/desarrollador').desarrolladorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.desarrolladores.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/desarrolladores/:id/editar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['edit']>>>
+    }
+  }
+  'admin.desarrolladores.update': {
     methods: ["PUT"]
-    pattern: '/profesionales/:id'
+    pattern: '/admin/desarrolladores/:id'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/desarrollador').desarrolladorValidator)>>
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profesionals_controller').default['update']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profesionals_controller').default['update']>>>
+      query: ExtractQuery<InferInput<(typeof import('#validators/desarrollador').desarrolladorValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'profesionals.destroy': {
+  'admin.desarrolladores.destroy': {
     methods: ["DELETE"]
-    pattern: '/profesionales/:id'
+    pattern: '/admin/desarrolladores/:id'
     types: {
       body: {}
       paramsTuple: [ParamValue]
       params: { id: ParamValue }
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/profesionals_controller').default['destroy']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/profesionals_controller').default['destroy']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['destroy']>>>
+    }
+  }
+  'admin.habilidades.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/habilidades'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['index']>>>
+    }
+  }
+  'admin.habilidades.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/habilidades/crear'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['create']>>>
+    }
+  }
+  'admin.habilidades.store': {
+    methods: ["POST"]
+    pattern: '/admin/habilidades'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/habilidad').createHabilidadValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/habilidad').createHabilidadValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.habilidades.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/habilidades/:id/editar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['edit']>>>
+    }
+  }
+  'admin.habilidades.update': {
+    methods: ["PUT"]
+    pattern: '/admin/habilidades/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['update']>>>
+    }
+  }
+  'admin.habilidades.destroy': {
+    methods: ["DELETE"]
+    pattern: '/admin/habilidades/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/habilidades_controller').default['destroy']>>>
+    }
+  }
+  'admin.proyectos.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/proyectos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['index']>>>
+    }
+  }
+  'admin.proyectos.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/proyectos/crear'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['create']>>>
+    }
+  }
+  'admin.proyectos.store': {
+    methods: ["POST"]
+    pattern: '/admin/proyectos'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/proyecto').proyectoValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/proyecto').proyectoValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.proyectos.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/proyectos/:id/editar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['edit']>>>
+    }
+  }
+  'admin.proyectos.update': {
+    methods: ["PUT"]
+    pattern: '/admin/proyectos/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/proyecto').proyectoValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/proyecto').proyectoValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.proyectos.destroy': {
+    methods: ["DELETE"]
+    pattern: '/admin/proyectos/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/proyectos_controller').default['destroy']>>>
+    }
+  }
+  'admin.requerimientos.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/requerimientos'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['index']>>>
+    }
+  }
+  'admin.requerimientos.create': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/requerimientos/crear'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['create']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['create']>>>
+    }
+  }
+  'admin.requerimientos.store': {
+    methods: ["POST"]
+    pattern: '/admin/requerimientos'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/requerimiento').requerimientoValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/requerimiento').requerimientoValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['store']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['store']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.requerimientos.edit': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/requerimientos/:id/editar'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['edit']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['edit']>>>
+    }
+  }
+  'admin.requerimientos.update': {
+    methods: ["PUT"]
+    pattern: '/admin/requerimientos/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/requerimiento').requerimientoValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/requerimiento').requerimientoValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['update']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['update']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin.requerimientos.destroy': {
+    methods: ["DELETE"]
+    pattern: '/admin/requerimientos/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['destroy']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/requerimientos_controller').default['destroy']>>>
     }
   }
 }
