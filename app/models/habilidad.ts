@@ -23,6 +23,7 @@ export default class Habilidad extends BaseModel {
     pivotForeignKey: 'habilidad_id',
     pivotRelatedForeignKey: 'desarrollador_id',
     pivotColumns: ['nivel'],
+    pivotTimestamps: true,
   })
   declare desarrolladores: ManyToMany<typeof Desarrollador>
 }
