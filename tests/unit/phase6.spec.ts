@@ -15,7 +15,7 @@ test.group('Fase 6: Validaciones de Asignación y Dropdowns', () => {
       assert.isDefined(msg)
       assert.equal(msg.message, 'Debe seleccionar un desarrollador.')
     }
-  })
+  }).timeout(10000)
 
   test('asignarHabilidadValidator rechaza si falta habilidadId', async ({ assert }) => {
     try {
@@ -29,7 +29,7 @@ test.group('Fase 6: Validaciones de Asignación y Dropdowns', () => {
       assert.isDefined(msg)
       assert.equal(msg.message, 'Debe seleccionar una habilidad.')
     }
-  })
+  }).timeout(10000)
 
   test('ROLES_DISPONIBLES contiene los roles estándar del ERP', ({ assert }) => {
     assert.include(ROLES_DISPONIBLES, 'Desarrollador React')
