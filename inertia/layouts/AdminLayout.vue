@@ -189,8 +189,11 @@ const logout = () => {
 .form-error {
   display: block;
   margin-top: 4px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: bold;
+  color: #000000;
+  border-left: 2px solid #000000;
+  padding-left: 6px;
 }
 
 /* Botones de acción */

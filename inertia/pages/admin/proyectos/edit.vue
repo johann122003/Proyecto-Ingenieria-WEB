@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, Link } from '@inertiajs/vue3'
+import { useForm, Link, usePage } from '@inertiajs/vue3'
 import AdminLayout from '~/layouts/AdminLayout.vue'
 
 const props = defineProps({
@@ -9,23 +9,28 @@ const props = defineProps({
   },
 })
 
+const page = usePage()
+const proyId = props.proyecto?.id || props.proyecto?.$attributes?.id || page.props.proyecto?.id
+
 const form = useForm({
-  nombre: props.proyecto.nombre,
-  presupuesto: props.proyecto.presupuesto,
-  fechaLimite: props.proyecto.fechaLimite || '',
-  estado: props.proyecto.estado,
+  id: proyId,
+  nombre: props.proyecto?.nombre || '',
+  presupuesto: props.proyecto?.presupuesto || '',
+  fechaLimite: props.proyecto?.fechaLimite || '',
+  estado: props.proyecto?.estado || 'Planificación',
 })
 
 const submit = () => {
-  form.put(`/admin/proyectos/${props.proyecto.id}`)
+  const id = form.id || props.proyecto?.id || proyId
+  form.put(`/admin/proyectos/${id}`)
 }
 </script>
 
 <template>
   <AdminLayout titulo="Proyectos">
-    <h2>Editar Proyecto #{{ proyecto.id }}</h2>
+    <h2>Editar Proyecto #{{ form.id || proyecto?.id }}</h2>
 
-    <form @submit.prevent="submit">
+    <form novalidate @submit.prevent="submit">
       <div class="form-group">
         <label for="nombre" class="form-label">Nombre del Proyecto:</label>
         <input
@@ -33,7 +38,6 @@ const submit = () => {
           v-model="form.nombre"
           type="text"
           class="form-input"
-          required
         />
         <span v-if="form.errors.nombre" class="form-error">
           {{ form.errors.nombre }}
@@ -41,14 +45,13 @@ const submit = () => {
       </div>
 
       <div class="form-group">
-        <label for="presupuesto" class="form-label">Presupuesto Asignado:</label>
+        <label for="presupuesto" class="form-label">Presupuesto Asignado (mayor a 0):</label>
         <input
           id="presupuesto"
           v-model="form.presupuesto"
           type="number"
           step="0.01"
           class="form-input"
-          required
         />
         <span v-if="form.errors.presupuesto" class="form-error">
           {{ form.errors.presupuesto }}
@@ -56,13 +59,12 @@ const submit = () => {
       </div>
 
       <div class="form-group">
-        <label for="fechaLimite" class="form-label">Fecha Límite:</label>
+        <label for="fechaLimite" class="form-label">Fecha Límite (no anterior a hoy):</label>
         <input
           id="fechaLimite"
           v-model="form.fechaLimite"
           type="date"
           class="form-input"
-          required
         />
         <span v-if="form.errors.fechaLimite" class="form-error">
           {{ form.errors.fechaLimite }}
@@ -71,7 +73,7 @@ const submit = () => {
 
       <div class="form-group">
         <label for="estado" class="form-label">Estado:</label>
-        <select id="estado" v-model="form.estado" class="form-select" required>
+        <select id="estado" v-model="form.estado" class="form-select">
           <option value="Planificación">Planificación</option>
           <option value="En progreso">En progreso</option>
           <option value="Pausado">Pausado</option>

@@ -5,7 +5,12 @@ import { proyectoValidator } from '#validators/proyecto'
 export default class ProyectosController {
   async index({ inertia }: HttpContext) {
     const proyectos = await Proyecto.query().orderBy('id', 'desc')
-    return inertia.render('admin/proyectos/index', { proyectos })
+    return inertia.render('admin/proyectos/index', {
+      proyectos: proyectos.map((p) => ({
+        ...p.toJSON(),
+        id: p.id,
+      })),
+    })
   }
 
   async create({ inertia }: HttpContext) {
@@ -24,6 +29,7 @@ export default class ProyectosController {
     return inertia.render('admin/proyectos/edit', {
       proyecto: {
         ...proyecto.toJSON(),
+        id: proyecto.id,
         fechaLimite: proyecto.fechaLimite ? proyecto.fechaLimite.toFormat('yyyy-MM-dd') : '',
       },
     })

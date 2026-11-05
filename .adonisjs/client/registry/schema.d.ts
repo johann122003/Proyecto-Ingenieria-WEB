@@ -91,6 +91,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_controller').default['index']>>>
     }
   }
+  'admin.api.desarrolladores_por_rol': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/api/desarrolladores-por-rol'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['porRol']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['porRol']>>>
+    }
+  }
+  'admin.desarrolladores.asignar_habilidad': {
+    methods: ["GET","HEAD"]
+    pattern: '/admin/desarrolladores/asignar-habilidad'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['vistaAsignarHabilidad']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['vistaAsignarHabilidad']>>>
+    }
+  }
+  'admin.desarrolladores.guardar_asignar_habilidad': {
+    methods: ["POST"]
+    pattern: '/admin/desarrolladores/asignar-habilidad'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/asignar_habilidad').asignarHabilidadValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/asignar_habilidad').asignarHabilidadValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['guardarAsignarHabilidad']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/desarrolladores_controller').default['guardarAsignarHabilidad']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'admin.desarrolladores.index': {
     methods: ["GET","HEAD"]
     pattern: '/admin/desarrolladores'

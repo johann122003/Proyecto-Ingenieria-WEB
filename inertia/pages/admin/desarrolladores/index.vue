@@ -26,9 +26,16 @@ const eliminar = (id) => {
 
 <template>
   <AdminLayout titulo="Desarrolladores">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
       <h2 style="margin: 0;">Listado de Desarrolladores</h2>
-      <Link href="/admin/desarrolladores/crear" class="btn-primary">Nuevo Desarrollador</Link>
+      <div>
+        <Link href="/admin/desarrolladores/asignar-habilidad" class="btn-secondary" style="margin-right: 8px;">
+          Asignar Habilidad (Dropdown Dependiente)
+        </Link>
+        <Link href="/admin/desarrolladores/crear" class="btn-primary">
+          Nuevo Desarrollador
+        </Link>
+      </div>
     </div>
 
     <table class="admin-table">

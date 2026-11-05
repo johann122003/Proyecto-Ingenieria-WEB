@@ -14,7 +14,12 @@ export interface ApiDefinition {
   dashboard: typeof routes['dashboard']
   admin: {
     index: typeof routes['admin.index']
+    api: {
+      desarrolladoresPorRol: typeof routes['admin.api.desarrolladores_por_rol']
+    }
     desarrolladores: {
+      asignarHabilidad: typeof routes['admin.desarrolladores.asignar_habilidad']
+      guardarAsignarHabilidad: typeof routes['admin.desarrolladores.guardar_asignar_habilidad']
       index: typeof routes['admin.desarrolladores.index']
       create: typeof routes['admin.desarrolladores.create']
       store: typeof routes['admin.desarrolladores.store']

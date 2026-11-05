@@ -5,7 +5,12 @@ import { createHabilidadValidator, updateHabilidadValidator } from '#validators/
 export default class HabilidadesController {
   async index({ inertia }: HttpContext) {
     const habilidades = await Habilidad.query().orderBy('id', 'asc')
-    return inertia.render('admin/habilidades/index', { habilidades })
+    return inertia.render('admin/habilidades/index', {
+      habilidades: habilidades.map((h) => ({
+        ...h.toJSON(),
+        id: h.id,
+      })),
+    })
   }
 
   async create({ inertia }: HttpContext) {
@@ -21,7 +26,12 @@ export default class HabilidadesController {
 
   async edit({ params, inertia }: HttpContext) {
     const habilidad = await Habilidad.findOrFail(params.id)
-    return inertia.render('admin/habilidades/edit', { habilidad })
+    return inertia.render('admin/habilidades/edit', {
+      habilidad: {
+        ...habilidad.toJSON(),
+        id: habilidad.id,
+      },
+    })
   }
 
   async update({ params, request, response, session }: HttpContext) {

@@ -15,7 +15,7 @@ const submit = () => {
   <AdminLayout titulo="Habilidades">
     <h2>Crear Nueva Habilidad</h2>
 
-    <form @submit.prevent="submit">
+    <form novalidate @submit.prevent="submit">
       <div class="form-group">
         <label for="nombre" class="form-label">Nombre de la Habilidad:</label>
         <input
@@ -24,7 +24,6 @@ const submit = () => {
           type="text"
           placeholder="Ej: TypeScript, Vue.js, PostgreSQL"
           class="form-input"
-          required
         />
         <span v-if="form.errors.nombre" class="form-error">
           {{ form.errors.nombre }}

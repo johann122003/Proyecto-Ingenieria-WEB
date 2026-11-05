@@ -1,8 +1,21 @@
 <script setup>
-import { useForm, Link } from '@inertiajs/vue3'
+import { useForm, Link, usePage } from '@inertiajs/vue3'
 import AdminLayout from '~/layouts/AdminLayout.vue'
 
 const props = defineProps({
+  roles: {
+    type: Array,
+    default: () => [
+      'Desarrollador React',
+      'Backend Node.js',
+      'Fullstack',
+      'DevOps',
+      'Arquitecto Cloud',
+      'QA Tester',
+      'Mobile Developer',
+      'Base de Datos',
+    ],
+  },
   desarrollador: {
     type: Object,
     required: true,
@@ -13,18 +26,22 @@ const props = defineProps({
   },
 })
 
+const page = usePage()
+const devId = props.desarrollador?.id || (props.desarrollador?.$attributes?.id) || (page.props.desarrollador?.id)
+
 // Mapear habilidades existentes con su nivel pivote
-const habilidadesIniciales = (props.desarrollador.habilidades || []).map((h) => ({
+const habilidadesIniciales = (props.desarrollador?.habilidades || []).map((h) => ({
   habilidadId: h.id,
   nivel: h.$extras?.pivot_nivel || h.pivot?.nivel || 'Intermedio',
 }))
 
 const form = useForm({
-  nombre: props.desarrollador.nombre,
-  rolPrincipal: props.desarrollador.rolPrincipal,
-  costoHoraNormal: props.desarrollador.costoHoraNormal,
-  costoHoraExtra: props.desarrollador.costoHoraExtra,
-  horasContrato: props.desarrollador.horasContrato,
+  id: devId,
+  nombre: props.desarrollador?.nombre || '',
+  rolPrincipal: props.desarrollador?.rolPrincipal || '',
+  costoHoraNormal: props.desarrollador?.costoHoraNormal || '',
+  costoHoraExtra: props.desarrollador?.costoHoraExtra || '',
+  horasContrato: props.desarrollador?.horasContrato || '',
   habilidades: habilidadesIniciales,
 })
 
@@ -44,15 +61,16 @@ const removerHabilidad = (index) => {
 }
 
 const submit = () => {
-  form.put(`/admin/desarrolladores/${props.desarrollador.id}`)
+  const id = form.id || props.desarrollador?.id || devId
+  form.put(`/admin/desarrolladores/${id}`)
 }
 </script>
 
 <template>
   <AdminLayout titulo="Desarrolladores">
-    <h2>Editar Desarrollador #{{ desarrollador.id }}</h2>
+    <h2>Editar Desarrollador #{{ form.id || desarrollador?.id }}</h2>
 
-    <form @submit.prevent="submit">
+    <form novalidate @submit.prevent="submit">
       <div class="form-group">
         <label for="nombre" class="form-label">Nombre Completo:</label>
         <input
@@ -60,36 +78,34 @@ const submit = () => {
           v-model="form.nombre"
           type="text"
           class="form-input"
-          required
         />
         <span v-if="form.errors.nombre" class="form-error">
           {{ form.errors.nombre }}
         </span>
       </div>
 
+      <!-- Select para Rol Principal -->
       <div class="form-group">
         <label for="rolPrincipal" class="form-label">Rol Principal:</label>
-        <input
-          id="rolPrincipal"
-          v-model="form.rolPrincipal"
-          type="text"
-          class="form-input"
-          required
-        />
+        <select id="rolPrincipal" v-model="form.rolPrincipal" class="form-select">
+          <option value="" disabled>-- Seleccione el rol principal --</option>
+          <option v-for="r in roles" :key="r" :value="r">
+            {{ r }}
+          </option>
+        </select>
         <span v-if="form.errors.rolPrincipal" class="form-error">
           {{ form.errors.rolPrincipal }}
         </span>
       </div>
 
       <div class="form-group">
-        <label for="costoHoraNormal" class="form-label">Costo por Hora Normal:</label>
+        <label for="costoHoraNormal" class="form-label">Costo por Hora Normal (mayor a 0):</label>
         <input
           id="costoHoraNormal"
           v-model="form.costoHoraNormal"
           type="number"
           step="0.01"
           class="form-input"
-          required
         />
         <span v-if="form.errors.costoHoraNormal" class="form-error">
           {{ form.errors.costoHoraNormal }}
@@ -97,14 +113,13 @@ const submit = () => {
       </div>
 
       <div class="form-group">
-        <label for="costoHoraExtra" class="form-label">Costo por Hora Extra:</label>
+        <label for="costoHoraExtra" class="form-label">Costo por Hora Extra (mayor o igual al costo normal):</label>
         <input
           id="costoHoraExtra"
           v-model="form.costoHoraExtra"
           type="number"
           step="0.01"
           class="form-input"
-          required
         />
         <span v-if="form.errors.costoHoraExtra" class="form-error">
           {{ form.errors.costoHoraExtra }}
@@ -112,14 +127,12 @@ const submit = () => {
       </div>
 
       <div class="form-group">
-        <label for="horasContrato" class="form-label">Horas de Contrato (al mes):</label>
+        <label for="horasContrato" class="form-label">Horas de Contrato al mes (entero mayor a 0):</label>
         <input
           id="horasContrato"
           v-model="form.horasContrato"
           type="number"
-          min="1"
           class="form-input"
-          required
         />
         <span v-if="form.errors.horasContrato" class="form-error">
           {{ form.errors.horasContrato }}
@@ -154,14 +167,14 @@ const submit = () => {
           <tbody>
             <tr v-for="(h, idx) in form.habilidades" :key="idx">
               <td>
-                <select v-model="h.habilidadId" class="form-select" required>
+                <select v-model="h.habilidadId" class="form-select">
                   <option v-for="hab in habilidades" :key="hab.id" :value="hab.id">
                     {{ hab.nombre }}
                   </option>
                 </select>
               </td>
               <td>
-                <select v-model="h.nivel" class="form-select" required>
+                <select v-model="h.nivel" class="form-select">
                   <option value="Básico">Básico</option>
                   <option value="Intermedio">Intermedio</option>
                   <option value="Avanzado">Avanzado</option>

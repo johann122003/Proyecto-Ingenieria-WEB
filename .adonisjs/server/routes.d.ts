@@ -11,6 +11,9 @@ export type ScannedRoutes = {
     'session.destroy': { paramsTuple?: []; params?: {} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'admin.index': { paramsTuple?: []; params?: {} }
+    'admin.api.desarrolladores_por_rol': { paramsTuple?: []; params?: {} }
+    'admin.desarrolladores.asignar_habilidad': { paramsTuple?: []; params?: {} }
+    'admin.desarrolladores.guardar_asignar_habilidad': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.index': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.create': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.store': { paramsTuple?: []; params?: {} }
@@ -41,6 +44,8 @@ export type ScannedRoutes = {
     'signup.create': { paramsTuple?: []; params?: {} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'admin.index': { paramsTuple?: []; params?: {} }
+    'admin.api.desarrolladores_por_rol': { paramsTuple?: []; params?: {} }
+    'admin.desarrolladores.asignar_habilidad': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.index': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.create': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -59,6 +64,8 @@ export type ScannedRoutes = {
     'signup.create': { paramsTuple?: []; params?: {} }
     'dashboard': { paramsTuple?: []; params?: {} }
     'admin.index': { paramsTuple?: []; params?: {} }
+    'admin.api.desarrolladores_por_rol': { paramsTuple?: []; params?: {} }
+    'admin.desarrolladores.asignar_habilidad': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.index': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.create': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.edit': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -76,6 +83,7 @@ export type ScannedRoutes = {
     'session.store': { paramsTuple?: []; params?: {} }
     'signup.store': { paramsTuple?: []; params?: {} }
     'session.destroy': { paramsTuple?: []; params?: {} }
+    'admin.desarrolladores.guardar_asignar_habilidad': { paramsTuple?: []; params?: {} }
     'admin.desarrolladores.store': { paramsTuple?: []; params?: {} }
     'admin.habilidades.store': { paramsTuple?: []; params?: {} }
     'admin.proyectos.store': { paramsTuple?: []; params?: {} }

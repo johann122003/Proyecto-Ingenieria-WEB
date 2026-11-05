@@ -2,16 +2,34 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Requerimiento from '#models/requerimiento'
 import Proyecto from '#models/proyecto'
 import { requerimientoValidator } from '#validators/requerimiento'
+import { ROLES_DISPONIBLES } from '#constants/roles'
 
 export default class RequerimientosController {
   async index({ inertia }: HttpContext) {
     const requerimientos = await Requerimiento.query().preload('proyecto').orderBy('id', 'desc')
-    return inertia.render('admin/requerimientos/index', { requerimientos })
+    return inertia.render('admin/requerimientos/index', {
+      requerimientos: requerimientos.map((r) => ({
+        ...r.toJSON(),
+        id: r.id,
+        proyecto: r.proyecto
+          ? {
+              ...r.proyecto.toJSON(),
+              id: r.proyecto.id,
+            }
+          : null,
+      })),
+    })
   }
 
   async create({ inertia }: HttpContext) {
     const proyectos = await Proyecto.query().select('id', 'nombre').orderBy('nombre', 'asc')
-    return inertia.render('admin/requerimientos/create', { proyectos })
+    return inertia.render('admin/requerimientos/create', {
+      roles: ROLES_DISPONIBLES,
+      proyectos: proyectos.map((p) => ({
+        ...p.toJSON(),
+        id: p.id,
+      })),
+    })
   }
 
   async store({ request, response, session }: HttpContext) {
@@ -24,7 +42,17 @@ export default class RequerimientosController {
   async edit({ params, inertia }: HttpContext) {
     const requerimiento = await Requerimiento.findOrFail(params.id)
     const proyectos = await Proyecto.query().select('id', 'nombre').orderBy('nombre', 'asc')
-    return inertia.render('admin/requerimientos/edit', { requerimiento, proyectos })
+    return inertia.render('admin/requerimientos/edit', {
+      roles: ROLES_DISPONIBLES,
+      requerimiento: {
+        ...requerimiento.toJSON(),
+        id: requerimiento.id,
+      },
+      proyectos: proyectos.map((p) => ({
+        ...p.toJSON(),
+        id: p.id,
+      })),
+    })
   }
 
   async update({ params, request, response, session }: HttpContext) {

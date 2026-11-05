@@ -44,6 +44,19 @@ router
   .group(() => {
     router.get('/', [AdminController, 'index']).as('admin.index')
 
+    // Endpoint JSON para dropdown dependiente
+    router
+      .get('/api/desarrolladores-por-rol', [DesarrolladoresController, 'porRol'])
+      .as('admin.api.desarrolladores_por_rol')
+
+    // Asignación dependiente de Habilidades a Desarrollador
+    router
+      .get('/desarrolladores/asignar-habilidad', [DesarrolladoresController, 'vistaAsignarHabilidad'])
+      .as('admin.desarrolladores.asignar_habilidad')
+    router
+      .post('/desarrolladores/asignar-habilidad', [DesarrolladoresController, 'guardarAsignarHabilidad'])
+      .as('admin.desarrolladores.guardar_asignar_habilidad')
+
     // CRUD Desarrolladores
     router.get('/desarrolladores', [DesarrolladoresController, 'index']).as('admin.desarrolladores.index')
     router.get('/desarrolladores/crear', [DesarrolladoresController, 'create']).as('admin.desarrolladores.create')

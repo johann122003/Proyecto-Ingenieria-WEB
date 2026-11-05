@@ -18,7 +18,7 @@ const submit = () => {
   <AdminLayout titulo="Proyectos">
     <h2>Crear Nuevo Proyecto</h2>
 
-    <form @submit.prevent="submit">
+    <form novalidate @submit.prevent="submit">
       <div class="form-group">
         <label for="nombre" class="form-label">Nombre del Proyecto:</label>
         <input
@@ -27,7 +27,6 @@ const submit = () => {
           type="text"
           placeholder="Ej: Migración ERP Cloud"
           class="form-input"
-          required
         />
         <span v-if="form.errors.nombre" class="form-error">
           {{ form.errors.nombre }}
@@ -35,7 +34,7 @@ const submit = () => {
       </div>
 
       <div class="form-group">
-        <label for="presupuesto" class="form-label">Presupuesto Asignado:</label>
+        <label for="presupuesto" class="form-label">Presupuesto Asignado (mayor a 0):</label>
         <input
           id="presupuesto"
           v-model="form.presupuesto"
@@ -43,7 +42,6 @@ const submit = () => {
           step="0.01"
           placeholder="Ej: 50000000"
           class="form-input"
-          required
         />
         <span v-if="form.errors.presupuesto" class="form-error">
           {{ form.errors.presupuesto }}
@@ -51,13 +49,12 @@ const submit = () => {
       </div>
 
       <div class="form-group">
-        <label for="fechaLimite" class="form-label">Fecha Límite:</label>
+        <label for="fechaLimite" class="form-label">Fecha Límite (no anterior a hoy):</label>
         <input
           id="fechaLimite"
           v-model="form.fechaLimite"
           type="date"
           class="form-input"
-          required
         />
         <span v-if="form.errors.fechaLimite" class="form-error">
           {{ form.errors.fechaLimite }}
@@ -66,7 +63,7 @@ const submit = () => {
 
       <div class="form-group">
         <label for="estado" class="form-label">Estado:</label>
-        <select id="estado" v-model="form.estado" class="form-select" required>
+        <select id="estado" v-model="form.estado" class="form-select">
           <option value="Planificación">Planificación</option>
           <option value="En progreso">En progreso</option>
           <option value="Pausado">Pausado</option>

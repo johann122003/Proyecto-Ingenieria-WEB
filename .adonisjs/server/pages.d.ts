@@ -9,6 +9,7 @@ type ExtractProps<T> = Omit<
 
 declare module '@adonisjs/inertia/types' {
   export interface InertiaPages {
+    'admin/desarrolladores/asignar_habilidad': ExtractProps<(typeof import('../../inertia/pages/admin/desarrolladores/asignar_habilidad.vue'))['default']>
     'admin/desarrolladores/create': ExtractProps<(typeof import('../../inertia/pages/admin/desarrolladores/create.vue'))['default']>
     'admin/desarrolladores/edit': ExtractProps<(typeof import('../../inertia/pages/admin/desarrolladores/edit.vue'))['default']>
     'admin/desarrolladores/index': ExtractProps<(typeof import('../../inertia/pages/admin/desarrolladores/index.vue'))['default']>

@@ -48,6 +48,24 @@ const routes = {
     tokens: [{"old":"/admin","type":0,"val":"admin","end":""}],
     types: placeholder as Registry['admin.index']['types'],
   },
+  'admin.api.desarrolladores_por_rol': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/api/desarrolladores-por-rol',
+    tokens: [{"old":"/admin/api/desarrolladores-por-rol","type":0,"val":"admin","end":""},{"old":"/admin/api/desarrolladores-por-rol","type":0,"val":"api","end":""},{"old":"/admin/api/desarrolladores-por-rol","type":0,"val":"desarrolladores-por-rol","end":""}],
+    types: placeholder as Registry['admin.api.desarrolladores_por_rol']['types'],
+  },
+  'admin.desarrolladores.asignar_habilidad': {
+    methods: ["GET","HEAD"],
+    pattern: '/admin/desarrolladores/asignar-habilidad',
+    tokens: [{"old":"/admin/desarrolladores/asignar-habilidad","type":0,"val":"admin","end":""},{"old":"/admin/desarrolladores/asignar-habilidad","type":0,"val":"desarrolladores","end":""},{"old":"/admin/desarrolladores/asignar-habilidad","type":0,"val":"asignar-habilidad","end":""}],
+    types: placeholder as Registry['admin.desarrolladores.asignar_habilidad']['types'],
+  },
+  'admin.desarrolladores.guardar_asignar_habilidad': {
+    methods: ["POST"],
+    pattern: '/admin/desarrolladores/asignar-habilidad',
+    tokens: [{"old":"/admin/desarrolladores/asignar-habilidad","type":0,"val":"admin","end":""},{"old":"/admin/desarrolladores/asignar-habilidad","type":0,"val":"desarrolladores","end":""},{"old":"/admin/desarrolladores/asignar-habilidad","type":0,"val":"asignar-habilidad","end":""}],
+    types: placeholder as Registry['admin.desarrolladores.guardar_asignar_habilidad']['types'],
+  },
   'admin.desarrolladores.index': {
     methods: ["GET","HEAD"],
     pattern: '/admin/desarrolladores',

@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, Link } from '@inertiajs/vue3'
+import { useForm, Link, usePage } from '@inertiajs/vue3'
 import AdminLayout from '~/layouts/AdminLayout.vue'
 
 const props = defineProps({
@@ -9,20 +9,25 @@ const props = defineProps({
   },
 })
 
+const page = usePage()
+const habId = props.habilidad?.id || props.habilidad?.$attributes?.id || page.props.habilidad?.id
+
 const form = useForm({
-  nombre: props.habilidad.nombre,
+  id: habId,
+  nombre: props.habilidad?.nombre || '',
 })
 
 const submit = () => {
-  form.put(`/admin/habilidades/${props.habilidad.id}`)
+  const id = form.id || props.habilidad?.id || habId
+  form.put(`/admin/habilidades/${id}`)
 }
 </script>
 
 <template>
   <AdminLayout titulo="Habilidades">
-    <h2>Editar Habilidad #{{ habilidad.id }}</h2>
+    <h2>Editar Habilidad #{{ form.id || habilidad?.id }}</h2>
 
-    <form @submit.prevent="submit">
+    <form novalidate @submit.prevent="submit">
       <div class="form-group">
         <label for="nombre" class="form-label">Nombre de la Habilidad:</label>
         <input
@@ -30,7 +35,6 @@ const submit = () => {
           v-model="form.nombre"
           type="text"
           class="form-input"
-          required
         />
         <span v-if="form.errors.nombre" class="form-error">
           {{ form.errors.nombre }}

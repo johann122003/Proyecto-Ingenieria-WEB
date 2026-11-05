@@ -7,6 +7,19 @@ defineProps({
     type: Array,
     default: () => [],
   },
+  roles: {
+    type: Array,
+    default: () => [
+      'Desarrollador React',
+      'Backend Node.js',
+      'Fullstack',
+      'DevOps',
+      'Arquitecto Cloud',
+      'QA Tester',
+      'Mobile Developer',
+      'Base de Datos',
+    ],
+  },
 })
 
 const form = useForm({
@@ -24,13 +37,14 @@ const submit = () => {
   <AdminLayout titulo="Requerimientos">
     <h2>Crear Nuevo Requerimiento</h2>
 
-    <form @submit.prevent="submit">
+    <form novalidate @submit.prevent="submit">
+      <!-- Select de Proyecto (sin input manual de FK) -->
       <div class="form-group">
         <label for="proyectoId" class="form-label">Proyecto:</label>
-        <select id="proyectoId" v-model="form.proyectoId" class="form-select" required>
+        <select id="proyectoId" v-model="form.proyectoId" class="form-select">
           <option value="" disabled>-- Seleccione un proyecto --</option>
           <option v-for="p in proyectos" :key="p.id" :value="p.id">
-            {{ p.nombre }}
+            {{ p.nombre }} (ID: {{ p.id }})
           </option>
         </select>
         <span v-if="form.errors.proyectoId" class="form-error">
@@ -38,31 +52,28 @@ const submit = () => {
         </span>
       </div>
 
+      <!-- Select de Rol Requerido -->
       <div class="form-group">
         <label for="rolRequerido" class="form-label">Rol Requerido:</label>
-        <input
-          id="rolRequerido"
-          v-model="form.rolRequerido"
-          type="text"
-          placeholder="Ej: Backend Developer, Tech Lead, DevOps"
-          class="form-input"
-          required
-        />
+        <select id="rolRequerido" v-model="form.rolRequerido" class="form-select">
+          <option value="" disabled>-- Seleccione el rol requerido --</option>
+          <option v-for="r in roles" :key="r" :value="r">
+            {{ r }}
+          </option>
+        </select>
         <span v-if="form.errors.rolRequerido" class="form-error">
           {{ form.errors.rolRequerido }}
         </span>
       </div>
 
       <div class="form-group">
-        <label for="horasEstimadas" class="form-label">Horas Estimadas:</label>
+        <label for="horasEstimadas" class="form-label">Horas Estimadas (entero mayor a 0):</label>
         <input
           id="horasEstimadas"
           v-model="form.horasEstimadas"
           type="number"
-          min="1"
           placeholder="Ej: 120"
           class="form-input"
-          required
         />
         <span v-if="form.errors.horasEstimadas" class="form-error">
           {{ form.errors.horasEstimadas }}
