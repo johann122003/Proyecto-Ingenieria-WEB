@@ -10,10 +10,11 @@ https://proyecto-ingenieria-web-57k6.onrender.com
 
 https://youtu.be/qgyqcjW_xZI
 
-## Ultima Version
+## Ultima Version v2.0.0
 https://github.com/johann122003/Proyecto-Ingenieria-WEB/releases/tag/v2.0.0
 
-## Primera Version
+## Primera Version v1.0.0
+https://github.com/johann122003/Proyecto-Ingenieria-WEB/releases/tag/v1.0.0
 
 ---
 
